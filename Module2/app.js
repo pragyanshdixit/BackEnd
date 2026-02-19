@@ -1,6 +1,15 @@
 import express from 'express';
+import cors from 'cors';
 
 const app=express();
+
+app.use(cors());
+
+// app.use(cors({
+//     origin:"http://127.0.0.1:5500/Module2/frontEnd/index.html",
+//     credentials:true
+// }))
+
 app.use(express.json())//This is used to parse the json data from the request body
 
 
@@ -26,11 +35,17 @@ import router from "./routes/userRoutes.js";
 
 // })
 
+// custom middleware
+function logger(req,res,next){
+    console.log("request url: ",req.url);;
+    next();
+}
+app.use(logger);
 
 //Get Request 
 //To get all users 
+app.use("/users",router);
 
-app.use("/users",router)
 
 
 
